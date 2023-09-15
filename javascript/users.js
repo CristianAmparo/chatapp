@@ -24,7 +24,7 @@ searchBar.onkeyup = () => {
 			if (xhr.status === 200) {
 				let data = xhr.response; //xhr.response gives us response of that passed URL
 				usersList.innerHTML = data;
-				console.log(data)
+
 			}
 		}
 	}

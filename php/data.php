@@ -16,7 +16,17 @@ while ($row = mysqli_fetch_assoc($sql)) {
     (strlen($result) > 28) ? $msg = substr($result, 0, 28) . '...' : $msg = $result;
 
     // adding you: text before msg if login id send msg
-    if ($outgoing_id) ($outgoing_id == 'outgoing_msg_id') ? $you = "You: " : $you = "";
+    if (!empty($row2['outgoing_msg_id'])) {
+        if ($outgoing_id) ($outgoing_id == $row2['outgoing_msg_id']) ? $you = "You: " : $you = "";
+    } else {
+        $you = "";
+    }
+
+
+
+
+
+
 
     //check user is online or offline
     ($row['status'] == "Offline now") ? $offline = "offline" : $offline = "";

@@ -9,7 +9,7 @@
 
         //Now I'm selecting all chat that matched to incoming_msg_id and outgoing_msg_id
         $sql = "SELECT * FROM messages 
-                LEFT JOIN users ON users.unique_id = messages.incoming_msg_id
+                LEFT JOIN users ON users.unique_id = messages.outgoing_msg_id
                 WHERE (outgoing_msg_id = {$outgoing_id} AND incoming_msg_id = {$incoming_id})
                 OR (outgoing_msg_id = {$incoming_id} AND incoming_msg_id = {$outgoing_id}) ORDER BY msg_id";
         
@@ -40,4 +40,3 @@
     }else{
         header("location: ../login.php");
     }
-?>
