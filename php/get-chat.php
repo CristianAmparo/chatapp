@@ -17,8 +17,8 @@ if (isset($_SESSION['UNIQUE_ID'])) {
     $query = mysqli_query($conn, $sql);
 
     $sql2 = "UPDATE messages
-        SET read_status = 0
-        WHERE (incoming_msg_id = {$outgoing_id} AND outgoing_msg_id = {$incoming_id} )";
+            SET read_status = 0
+            WHERE (incoming_msg_id = {$outgoing_id} or outgoing_msg_id = {$incoming_id} )";
     $query2 = mysqli_query($conn, $sql2);
     if (mysqli_num_rows($query) > 0) {
         while ($row = mysqli_fetch_assoc($query)) {

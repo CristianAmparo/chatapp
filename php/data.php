@@ -20,7 +20,7 @@ while ($row = mysqli_fetch_assoc($sql)) {
     // adding you: text before msg if login id send msg
     $row_date = date('Y-m-d', strtotime($row2['timestamp']));
     $current_date = date('Y-m-d');
-
+    $chatlist = "";
     if ($row_date === $current_date) {
         $date = date("h:i A", strtotime($row2['timestamp']));
     } else {
@@ -30,19 +30,22 @@ while ($row = mysqli_fetch_assoc($sql)) {
         if ($outgoing_id) {
             if ($outgoing_id == $row2['outgoing_msg_id']) {
                 $you = "You: ";
+
+                $chatlist =  $you . $msg . " " . '<span>' . $date  . '</span>';
             } else {
                 $you = $row['fname'] . ": ";
+                if ($read_status) {
+                    $chatlist = '<b>' . $you . $msg . " " . '<span>' . $date . '</span></b>';
+                } else {
+                    $chatlist =  $you . $msg . " " . '<span>' . $date  . '</span>';
+                }
             }
         }
     } else {
         $you = $row['fname'] . ": ";
     }
 
-    if ($read_status) {
-        $chatlist = '<b>' . $you . $msg . " " . '<span>' . $date . '</span></b>';
-    } else {
-        $chatlist =  $you . $msg . " " . '<span>' . $date  . '</span>';
-    }
+
 
 
     // Check if user is online or offline
