@@ -8,8 +8,10 @@ while ($row = mysqli_fetch_assoc($sql)) {
 
     if (mysqli_num_rows($query2)) {
         $result = $row2['msg'];
+        $read_status = $row2['read_status'];
     } else {
         $result = "No message available";
+        $read_status = "";
     }
 
     //trimming message if word are more than 28
@@ -36,24 +38,24 @@ while ($row = mysqli_fetch_assoc($sql)) {
         $you = $row['fname'] . ": ";
     }
 
+    if ($read_status) {
+        $chatlist = '<b>' . $you . $msg . " " . '<span>' . $date . '</span></b>';
+    } else {
+        $chatlist =  $you . $msg . " " . '<span>' . $date  . '</span>';
+    }
 
 
-
-
-
-
-    //check user is online or offline
+    // Check if user is online or offline
     ($row['status'] == "Offline now") ? $offline = "offline" : $offline = "";
 
     $output .= '<a href="chat.php?user_id=' . $row['unique_id'] . '">
-                        <div class="content">
-                            <img src="php/images/' . $row['img'] . '" alt="">
-                            <div class="details">
-                                <span>' . $row['fname'] . " " . $row['lname'] . '</span>
-                                <p>' . $you . $msg . " " . '<span>' . $date . '</span></p>
-                                <p> 
-                            </div>
-                        </div>
-                        <div class="status-dot ' . $offline . '"><i class="fas fa-circle"></i></div>
-                    </a>';
+                <div class="content">
+                    <img src="php/images/' . $row['img'] . '" alt="">
+                    <div class="details">
+                        <span>' . $row['fname'] . " " . $row['lname'] . '</span>
+                        <p>' . $chatlist . '</p>
+                    </div>
+                </div>
+                <div class="status-dot ' . $offline . '"><i class="fas fa-circle"></i></div>
+            </a>';
 }
