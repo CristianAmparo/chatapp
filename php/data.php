@@ -13,13 +13,29 @@ while ($row = mysqli_fetch_assoc($sql)) {
     }
 
     //trimming message if word are more than 28
-    (strlen($result) > 28) ? $msg = substr($result, 0, 28) . '...' : $msg = $result;
+    (strlen($result) > 32) ? $msg = substr($result, 0, 32) . '...' : $msg = $result;
 
     // adding you: text before msg if login id send msg
     if (!empty($row2['outgoing_msg_id'])) {
-        if ($outgoing_id) ($outgoing_id == $row2['outgoing_msg_id']) ? $you = "You: " : $you = "";
+        if ($outgoing_id) {
+            if ($outgoing_id == $row2['outgoing_msg_id']) {
+                $you = "You: ";
+                $date = "";
+            } else {
+                $you = $row['fname'] . ": ";
+                $row_date = date('Y-m-d', strtotime($row2['timestamp']));
+                $current_date = date('Y-m-d');
+
+                if ($row_date === $current_date) {
+                    $date = date("h:i A", strtotime($row2['timestamp']));
+                } else {
+                    $date = date("M j", strtotime($row2['timestamp']));
+                }
+            }
+        }
     } else {
-        $you = "";
+        $you = $row['fname'] . ": ";
+        $date = "";
     }
 
 
@@ -36,7 +52,8 @@ while ($row = mysqli_fetch_assoc($sql)) {
                             <img src="php/images/' . $row['img'] . '" alt="">
                             <div class="details">
                                 <span>' . $row['fname'] . " " . $row['lname'] . '</span>
-                                <p>' . $you . $msg . '</p>
+                                <p>' . $you . $msg . " " . '<span>' . $date . '</span></p>
+                                <p> 
                             </div>
                         </div>
                         <div class="status-dot ' . $offline . '"><i class="fas fa-circle"></i></div>

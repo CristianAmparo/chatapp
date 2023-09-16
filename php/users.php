@@ -14,7 +14,7 @@ if ($_SESSION['UNIQUE_ID'] != 607444104) {
         include "data.php";
     }
 } else {
-    $sql = mysqli_query($conn, "SELECT users.*, MAX(messages.timestamp) AS latest_timestamp FROM users JOIN messages ON users.unique_id = messages.outgoing_msg_id WHERE NOT users.unique_id = 607444104 GROUP BY users.unique_id ORDER BY latest_timestamp DESC;");
+    $sql = mysqli_query($conn, "SELECT users.*, MAX(messages.timestamp) AS latest_timestamp FROM users JOIN messages ON users.unique_id = messages.outgoing_msg_id or users.unique_id = messages.incoming_msg_id WHERE NOT users.unique_id = 607444104 GROUP BY users.unique_id ORDER BY latest_timestamp DESC;");
     $output = "";
     if (mysqli_num_rows($sql) == 0) { //If there is only one row in the database then definitely this is a current logged in user.so we tell there is no user to chat if users is equal to 1
         $output .= "No users are available to chat";
