@@ -16,26 +16,24 @@ while ($row = mysqli_fetch_assoc($sql)) {
     (strlen($result) > 32) ? $msg = substr($result, 0, 32) . '...' : $msg = $result;
 
     // adding you: text before msg if login id send msg
+    $row_date = date('Y-m-d', strtotime($row2['timestamp']));
+    $current_date = date('Y-m-d');
+
+    if ($row_date === $current_date) {
+        $date = date("h:i A", strtotime($row2['timestamp']));
+    } else {
+        $date = date("M j", strtotime($row2['timestamp']));
+    }
     if (!empty($row2['outgoing_msg_id'])) {
         if ($outgoing_id) {
             if ($outgoing_id == $row2['outgoing_msg_id']) {
                 $you = "You: ";
-                $date = "";
             } else {
                 $you = $row['fname'] . ": ";
-                $row_date = date('Y-m-d', strtotime($row2['timestamp']));
-                $current_date = date('Y-m-d');
-
-                if ($row_date === $current_date) {
-                    $date = date("h:i A", strtotime($row2['timestamp']));
-                } else {
-                    $date = date("M j", strtotime($row2['timestamp']));
-                }
             }
         }
     } else {
         $you = $row['fname'] . ": ";
-        $date = "";
     }
 
 
